@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Contenido - Dreamplay</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .upload-container {
+            min-height: 100vh;
+            background: linear-gradient(rgba(15, 15, 30, 0.9), rgba(45, 27, 105, 0.8));
+            padding: 120px 2rem 2rem;
+        }
+
+        .upload-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .upload-header h1 {
+            color: var(--projector-gold);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-subtitle {
+            color: var(--gray-text);
+            font-size: 1.2rem;
+        }
+
+        .upload-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .upload-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 50px;
+            right: 50px;
+            height: 3px;
+            background: var(--deep-purple);
+            z-index: 1;
+        }
+
+        .step-indicator {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--deep-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: bold;
+            border: 3px solid var(--neon-cyan);
+        }
+
+        .step-indicator.active .step-circle {
+            background: var(--neon-cyan);
+            color: var(--dark-bg);
+        }
+
+        .step-text {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .step-indicator.active .step-text {
+            color: var(--neon-cyan);
+            font-weight: bold;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .file-upload-area {
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        .file-upload-area.dragover {
+            border-color: var(--projector-gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .upload-text h3 {
+            color: var(--projector-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-text p {
+            color: var(--gray-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-requirements {
+            color: var(--gray-text);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .file-preview {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-name {
+            color: var(--light-text);
+            font-weight: bold;
+        }
+
+        .file-size {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .remove-file {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-section h3 {
+            color: var(--projector-gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-group label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--gray-text);
+            color: var(--gray-text);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--light-text);
+            color: var(--light-text);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 1rem;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--projector-gold));
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">DREAMPLAY</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#explorar">Explorar</a></li>
+                <li><a href="upload.html" class="active">Subir Contenido</a></li>
+                <li><a href="login.html">Mi Cuenta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="upload-container">
+        <div class="upload-content">
+            <!-- Encabezado -->
+            <div class="upload-header">
+                <h1>🎬 Sube tu Obra Maestra</h1>
+                <p class="upload-subtitle">Comparte tu creatividad con la comunidad mundial de Dreamplay</p>
+            </div>
+
+            <!-- Indicador de Pasos -->
+            <div class="upload-steps">
+                <div class="step-indicator active">
+                    <div class="step-circle">1</div>
+                    <div class="step-text">Información</div>
+                </div>
+                <div class="step-indicator">
+                    <div class="step-circle">2</div>
+                    <div class="step-text">Archivo</div>
+                </div>
+                <div class="step-indicator">
+                    <div class="step-circle">3</div>
+                    <div class="step-text">Configuración</div>
+                </div>
+                <div class="step-indicator">
+                    <div class="step-circle">4</div>
+                    <div class="step-text">Revisión</div>
+                </div>
+            </div>
+
+            <!-- Formulario de Subida -->
+            <form id="uploadForm">
+                <!-- Sección 1: Información Básica -->
+                <div class="form-section">
+                    <h3>📝 Información de la Obra</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="filmTitle">Título de la Obra *</label>
+                            <input type="text" id="filmTitle" name="filmTitle" required 
+                                   placeholder="Ej: El Sueño del Cineasta">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filmGenre">Género Principal *</label>
+                            <select id="filmGenre" name="filmGenre" required>
+                                <option value="">Seleccionar género</option>
+                                <option value="drama">Drama</option>
+                                <option value="comedia">Comedia</option>
+                                <option value="terror">Terror</option>
+                                <option value="ciencia-ficcion">Ciencia Ficción</option>
+                                <option value="documental">Documental</option>
+                                <option value="animacion">Animación</option>
+                                <option value="experimental">Experimental</option>
+                                <option value="cortometraje">Cortometraje</option>
+                                <option value="series-web">Series Web</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filmDuration">Duracción (minutos) *</label>
+                            <input type="number" id="filmDuration" name="filmDuration" required 
+                                   min="1" max="300" placeholder="Ej: 15">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="filmLanguage">Idioma Principal *</label>
+                            <select id="filmLanguage" name="filmLanguage" required>
+                                <option value="es">Español</option>
+                                <option value="en">Inglés</option>
+                                <option value="fr">Francés</option>
+                                <option value="pt">Portugués</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="filmDescription">Descripción *</label>
+                            <textarea id="filmDescription" name="filmDescription" rows="4" required
+                                      placeholder="Describe tu obra, su inspiración, el mensaje que quieres transmitir..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección 2: Archivo de Video -->
+                <div class="form-section">
+                    <h3>🎥 Archivo de Video</h3>
+                    
+                    <div class="file-upload-area" id="uploadArea">
+                        <input type="file" id="videoFile" name="videoFile" accept="video/*" 
+                               style="display: none;">
+                        
+                        <div class="upload-placeholder">
+                            <span class="upload-icon">📁</span>
+                            <div class="upload-text">
+                                <h3>Haz clic o arrastra tu video aquí</h3>
+                                <p>Formatos soportados: MP4, AVI, MOV, MKV, WEBM</p>
+                                <p>Tamaño máximo: 2GB</p>
+                            </div>
+                        </div>
+
+                        <div class="file-preview" id="filePreview">
+                            <div class="file-info">
+                                <div>
+                                    <div class="file-name" id="fileName">archivo_video.mp4</div>
+                                    <div class="file-size" id="fileSize">0 MB</div>
+                                </div>
+                                <button type="button" class="remove-file" id="removeFile">Eliminar</button>
+                            </div>
+                            <div class="progress-bar" id="progressBar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="file-requirements">
+                        <p><strong>Recomendaciones:</strong> Resolución mínima 720p, Codec H.264, Audio AAC</p>
+                    </div>
+                </div>
+
+                <!-- Sección 3: Configuración -->
+                <div class="form-section">
+                    <h3>⚙️ Configuración de Publicación</h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="visibility">Visibilidad</label>
+                            <select id="visibility" name="visibility">
+                                <option value="public">Pública (Todos pueden ver)</option>
+                                <option value="unlisted">No listada (Solo con enlace)</option>
+                                <option value="private">Privada (Solo yo)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monetization">Monetización</label>
+                            <select id="monetization" name="monetization">
+                                <option value="donations">Solo Donaciones</option>
+                                <option value="ads">Publicidad + Donaciones</option>
+                                <option value="free">Totalmente Gratuito</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="allowComments" name="allowComments" checked>
+                        <label for="allowComments">Permitir comentarios de la comunidad</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="allowDownloads" name="allowDownloads">
+                        <label for="allowDownloads">Permitir descargas (solo para usuarios registrados)</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ageRestriction" name="ageRestriction">
+                        <label for="ageRestriction">Contenido para mayores de 18 años</label>
+                    </div>
+                </div>
+
+                <!-- Sección 4: Términos y Condiciones -->
+                <div class="form-section">
+                    <h3>📄 Términos y Condiciones</h3>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="rightsConfirmation" name="rightsConfirmation" required>
+                        <label for="rightsConfirmation">
+                            Confirmo que poseo los derechos necesarios sobre este contenido 
+                            o tengo permiso para distribuirlo.
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAcceptance" name="termsAcceptance" required>
+                        <label for="termsAcceptance">
+                            Acepto los <a href="#" style="color: var(--neon-cyan);">términos de servicio</a> 
+                            y la <a href="#" style="color: var(--neon-cyan);">política de contenido</a> de Dreamplay.
+                        </label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="revenueSharing" name="revenueSharing" required>
+                        <label for="revenueSharing">
+                            Entiendo y acepto el modelo de revenue sharing: 
+                            <strong>85% para mí en donaciones, 40% en publicidad</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="upload-actions">
+                    <button type="button" class="cta-button btn-secondary">Guardar Borrador</button>
+                    <button type="submit" class="cta-button">
+                        🚀 Publicar en Dreamplay
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Sistema de Subida de Archivos
+        const uploadArea = document.getElementById('uploadArea');
+        const videoFileInput = document.getElementById('videoFile');
+        const filePreview = document.getElementById('filePreview');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const removeFileBtn = document.getElementById('removeFile');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const uploadPlaceholder = uploadArea.querySelector('.upload-placeholder');
+
+        // Click en el área de subida
+        uploadArea.addEventListener('click', () => {
+            videoFileInput.click();
+        });
+
+        // Arrastrar y soltar
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                videoFileInput.files = e.dataTransfer.files;
+                handleFileSelection();
+            }
+        });
+
+        // Selección de archivo
+        videoFileInput.addEventListener('change', handleFileSelection);
+
+        function handleFileSelection() {
+            if (videoFileInput.files.length) {
+                const file = videoFileInput.files[0];
+                
+                // Validar tipo de archivo
+                const allowedTypes = ['video/mp4', 'video/avi', 'video/quicktime', 'video/x-matroska', 'video/webm'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('❌ Formato de archivo no soportado. Usa MP4, AVI, MOV, MKV o WEBM.');
+                    return;
+                }
+
+                // Validar tamaño (2GB máximo)
+                const maxSize = 2 * 1024 * 1024 * 1024; // 2GB en bytes
+                if (file.size > maxSize) {
+                    alert('❌ El archivo es demasiado grande. Máximo 2GB permitido.');
+                    return;
+                }
+
+                // Mostrar información del archivo
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                
+                // Mostrar preview y ocultar placeholder
+                uploadPlaceholder.style.display = 'none';
+                filePreview.style.display = 'block';
+                
+                // Simular progreso de subida (en una app real esto sería con el servidor)
+                simulateUploadProgress();
+            }
+        }
+
+        // Eliminar archivo
+        removeFileBtn.addEventListener('click', () => {
+            videoFileInput.value = '';
+            filePreview.style.display = 'none';
+            uploadPlaceholder.style.display = 'block';
+            progressBar.style.display = 'none';
+        });
+
+        // Formatear tamaño de archivo
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Simular progreso de subida
+        function simulateUploadProgress() {
+            progressBar.style.display = 'block';
+            let progress = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                }
+                progressFill.style.width = progress + '%';
+            }, 200);
+        }
+
+        // Validación del formulario
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!videoFileInput.files.length) {
+                alert('❌ Por favor selecciona un archivo de video');
+                return;
+            }
+
+            // Aquí normalmente enviaríamos el formulario a un servidor
+            alert('✅ ¡Tu obra ha sido subida exitosamente! Será revisada y publicada en breve.');
+            
+            // Redirigir a la página principal
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+
+        // Efectos visuales en los inputs
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.15)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

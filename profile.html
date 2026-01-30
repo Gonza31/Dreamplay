@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Dreamplay</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .profile-container {
+            min-height: 100vh;
+            background: linear-gradient(rgba(15, 15, 30, 0.9), rgba(45, 27, 105, 0.8));
+            padding: 100px 2rem 2rem;
+        }
+
+        .profile-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .avatar-section {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--deep-purple), var(--neon-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            border: 3px solid var(--projector-gold);
+        }
+
+        .change-avatar {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .change-avatar:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            color: var(--projector-gold);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-username {
+            color: var(--neon-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-bio {
+            color: var(--gray-text);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            color: var(--projector-gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        /* Pestañas de Navegación */
+        .profile-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            color: var(--gray-text);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: var(--deep-purple);
+            color: var(--light-text);
+            box-shadow: 0 4px 15px rgba(45, 27, 105, 0.5);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+        }
+
+        /* Contenido de las Pestañas */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard - Estadísticas de Ingresos */
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .earning-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .earning-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .earning-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .earning-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--projector-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .earning-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .earning-trend {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .trend-positive {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .trend-negative {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+        }
+
+        /* Gráfico de Ingresos (Simulado) */
+        .earnings-chart {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, rgba(255,215,0,0.1), rgba(0,255,255,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-text);
+            font-style: italic;
+        }
+
+        /* Mis Películas */
+        .films-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .film-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .film-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .film-thumbnail {
+            height: 160px;
+            background: linear-gradient(45deg, var(--deep-purple), var(--neon-cyan));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .film-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .film-action-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .film-info {
+            padding: 1rem;
+        }
+
+        .film-title {
+            color: var(--projector-gold);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .film-stats {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-text);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .film-earnings {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .earnings-amount {
+            color: var(--projector-gold);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Configuración */
+        .settings-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-section h3 {
+            color: var(--projector-gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-group label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .danger-zone {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .danger-zone h3 {
+            color: #F44336;
+            margin-bottom: 1rem;
+        }
+
+        .btn-danger {
+            background: #F44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        /* Retiros */
+        .withdrawal-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .balance-display {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .total-balance {
+            font-size: 3rem;
+            color: var(--projector-gold);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .available-balance {
+            color: var(--gray-text);
+            font-size: 1.1rem;
+        }
+
+        .withdrawal-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .withdrawal-history {
+            margin-top: 2rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .history-amount {
+            color: var(--projector-gold);
+            font-weight: bold;
+        }
+
+        .history-status {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .status-completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">DREAMPLAY</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#explorar">Explorar</a></li>
+                <li><a href="upload.html">Subir Contenido</a></li>
+                <li><a href="profile.html" class="active">Mi Perfil</a></li>
+                <li><a href="login.html">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-content">
+            <!-- Header del Perfil -->
+            <div class="profile-header">
+                <div class="avatar-section">
+                    <div class="avatar">🎬</div>
+                    <button class="change-avatar">Cambiar Avatar</button>
+                </div>
+                
+                <div class="profile-info">
+                    <h1 class="profile-name">Ana López</h1>
+                    <div class="profile-username">@analopezcine</div>
+                    <p class="profile-bio">
+                        Directora de cine independiente apasionada por contar historias que inspiren. 
+                        Especializada en cortometrajes dramáticos y documentales sociales.
+                    </p>
+                    
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Películas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">45.2K</span>
+                            <span class="stat-label">Vistas</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">1.2K</span>
+                            <span class="stat-label">Seguidores</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">4.8</span>
+                            <span class="stat-label">⭐ Rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pestañas de Navegación -->
+            <div class="profile-tabs">
+                <div class="tab active" data-tab="dashboard">📊 Dashboard</div>
+                <div class="tab" data-tab="films">🎬 Mis Películas</div>
+                <div class="tab" data-tab="earnings">💰 Ingresos</div>
+                <div class="tab" data-tab="settings">⚙️ Configuración</div>
+            </div>
+
+            <!-- Contenido de las Pestañas -->
+            
+            <!-- Dashboard -->
+            <div id="dashboard" class="tab-content active">
+                <div class="earnings-grid">
+                    <div class="earning-card">
+                        <div class="earning-icon">💰</div>
+                        <div class="earning-amount">$2,845.50</div>
+                        <div class="earning-label">Ganancias Totales</div>
+                        <div class="earning-trend trend-positive">+12% este mes</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">🎁</div>
+                        <div class="earning-amount">$1,856.75</div>
+                        <div class="earning-label">Por Donaciones</div>
+                        <div class="earning-label">(85% para ti)</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">📺</div>
+                        <div class="earning-amount">$988.75</div>
+                        <div class="earning-label">Por Publicidad</div>
+                        <div class="earning-label">(40% para ti)</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">💳</div>
+                        <div class="earning-amount">$1,250.00</div>
+                        <div class="earning-label">Disponible para Retiro</div>
+                    </div>
+                </div>
+
+                <div class="earnings-chart">
+                    <h3>Ingresos Mensuales</h3>
+                    <div class="chart-placeholder">
+                        Gráfico de ingresos - $2,845.50 total
+                    </div>
+                </div>
+
+                <div class="earnings-grid">
+                    <div class="earning-card">
+                        <div class="earning-icon">👁️</div>
+                        <div class="earning-amount">45,287</div>
+                        <div class="earning-label">Vistas Totales</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">❤️</div>
+                        <div class="earning-amount">2,845</div>
+                        <div class="earning-label">Likes Totales</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">💬</div>
+                        <div class="earning-amount">567</div>
+                        <div class="earning-label">Comentarios</div>
+                    </div>
+                    
+                    <div class="earning-card">
+                        <div class="earning-icon">📈</div>
+                        <div class="earning-amount">68%</div>
+                        <div class="earning-label">Tasa de Retención</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mis Películas -->
+            <div id="films" class="tab-content">
+                <div class="films-grid">
+                    <!-- Película 1 -->
+                    <div class="film-card">
+                        <div class="film-thumbnail">
+                            🎬
+                            <div class="film-actions">
+                                <button class="film-action-btn">✏️</button>
+                                <button class="film-action-btn">📊</button>
+                            </div>
+                        </div>
+                        <div class="film-info">
+                            <h3 class="film-title">El Sueño del Cineasta</h3>
+                            <div class="film-stats">
+                                <span>🎬 15 min</span>
+                                <span>👁️ 12.4K</span>
+                                <span>❤️ 845</span>
+                            </div>
+                            <div class="film-earnings">
+                                <div class="earnings-amount">$856.50</div>
+                                <div>Ganancias Totales</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Película 2 -->
+                    <div class="film-card">
+                        <div class="film-thumbnail">
+                            🎬
+                            <div class="film-actions">
+                                <button class="film-action-btn">✏️</button>
+                                <button class="film-action-btn">📊</button>
+                            </div>
+                        </div>
+                        <div class="film-info">
+                            <h3 class="film-title">Latidos Urbanos</h3>
+                            <div class="film-stats">
+                                <span>🎬 22 min</span>
+                                <span>👁️ 8.7K</span>
+                                <span>❤️ 623</span>
+                            </div>
+                            <div class="film-earnings">
+                                <div class="earnings-amount">$567.25</div>
+                                <div>Ganancias Totales</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Película 3 -->
+                    <div class="film-card">
+                        <div class="film-thumbnail">
+                            🎬
+                            <div class="film-actions">
+                                <button class="film-action-btn">✏️</button>
+                                <button class="film-action-btn">📊</button>
+                            </div>
+                        </div>
+                        <div class="film-info">
+                            <h3 class="film-title">Sombras del Alma</h3>
+                            <div class="film-stats">
+                                <span>🎬 18 min</span>
+                                <span>👁️ 15.3K</span>
+                                <span>❤️ 1.2K</span>
+                            </div>
+                            <div class="film-earnings">
+                                <div class="earnings-amount">$1,245.75</div>
+                                <div>Ganancias Totales</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingresos y Retiros -->
+            <div id="earnings" class="tab-content">
+                <div class="withdrawal-card">
+                    <div class="balance-display">
+                        <div class="total-balance">$1,250.00</div>
+                        <div class="available-balance">Disponible para retiro inmediato</div>
+                    </div>
+
+                    <form class="withdrawal-form">
+                        <div class="form-group">
+                            <label for="withdrawAmount">Monto a Retirar</label>
+                            <input type="number" id="withdrawAmount" placeholder="Ej: 250.00" min="10" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentMethod">Método de Pago</label>
+                            <select id="paymentMethod">
+                                <option value="paypal">PayPal</option>
+                                <option value="transfer">Transferencia Bancaria</option>
+                                <option value="wise">Wise</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="cta-button">Solicitar Retiro</button>
+                    </form>
+                </div>
+
+                <div class="withdrawal-history">
+                    <h3>Historial de Retiros</h3>
+                    <div class="history-item">
+                        <div>
+                            <div>15 Oct 2024</div>
+                            <div>PayPal - ****@gmail.com</div>
+                        </div>
+                        <div class="history-amount">$500.00</div>
+                        <div class="history-status status-completed">Completado</div>
+                    </div>
+                    <div class="history-item">
+                        <div>
+                            <div>01 Oct 2024</div>
+                            <div>Transferencia Bancaria</div>
+                        </div>
+                        <div class="history-amount">$750.00</div>
+                        <div class="history-status status-completed">Completado</div>
+                    </div>
+                    <div class="history-item">
+                        <div>
+                            <div>28 Sep 2024</div>
+                            <div>PayPal - ****@gmail.com</div>
+                        </div>
+                        <div class="history-amount">$300.00</div>
+                        <div class="history-status status-completed">Completado</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuración -->
+            <div id="settings" class="tab-content">
+                <form class="settings-form">
+                    <div class="form-section">
+                        <h3>Información Personal</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Nombre</label>
+                                <input type="text" id="firstName" value="Ana">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Apellido</label>
+                                <input type="text" id="lastName" value="López">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">Nombre de Usuario</label>
+                            <input type="text" id="username" value="analopezcine">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="ana.lopez@email.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bio">Biografía</label>
+                            <textarea id="bio" rows="4">Directora de cine independiente apasionada por contar historias que inspiren. Especializada en cortometrajes dramáticos y documentales sociales.</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Preferencias de Notificaciones</h3>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifDonations" checked>
+                            <label for="notifDonations">Nuevas donaciones recibidas</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifComments" checked>
+                            <label for="notifComments">Nuevos comentarios en mis películas</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifFollowers" checked>
+                            <label for="notifFollowers">Nuevos seguidores</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notifNewsletter">
+                            <label for="notifNewsletter">Newsletter de Dreamplay</label>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Configuración de Privacidad</h3>
+                        <div class="form-group">
+                            <label for="profileVisibility">Visibilidad del Perfil</label>
+                            <select id="profileVisibility">
+                                <option value="public">Público</option>
+                                <option value="followers">Solo Seguidores</option>
+                                <option value="private">Privado</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showEarnings" checked>
+                            <label for="showEarnings">Mostrar ganancias en mi perfil público</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cta-button">💾 Guardar Cambios</button>
+
+                    <div class="danger-zone">
+                        <h3>🚨 Zona de Peligro</h3>
+                        <p>Estas acciones no se pueden deshacer. Por favor, procede con cuidado.</p>
+                        <button type="button" class="btn-danger">🗑️ Eliminar Mi Cuenta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sistema de Pestañas
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remover activo de todas las pestañas
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Activar pestaña clickeada
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Simular datos de perfil
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎬 Perfil de Dreamplay cargado');
+            
+            // Aquí iría la lógica para cargar datos reales del usuario
+            // Por ahora usamos datos de ejemplo
+        });
+
+        // Validación del formulario de retiro
+        document.querySelector('.withdrawal-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            
+            if (amount < 10) {
+                alert('❌ El monto mínimo de retiro es $10.00');
+                return;
+            }
+            
+            if (amount > 1250) {
+                alert('❌ No tienes suficiente saldo disponible');
+                return;
+            }
+            
+            alert(`✅ Solicitud de retiro por $${amount} enviada. Será procesada en 3-5 días hábiles.`);
+            this.reset();
+        });
+
+        // Guardar configuración
+        document.querySelector('.settings-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('✅ Configuración guardada correctamente');
+        });
+
+        // Efectos visuales
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.15)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

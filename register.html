@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - Dreamplay</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .register-container {
+            min-height: 100vh;
+            background: linear-gradient(rgba(15, 15, 30, 0.9), rgba(45, 27, 105, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 2rem 2rem;
+        }
+
+        .register-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .register-form h2 {
+            text-align: center;
+            color: var(--projector-gold);
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .register-subtitle {
+            text-align: center;
+            color: var(--gray-text);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--light-text);
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .terms input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .terms label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray-text);
+        }
+
+        .login-link a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (mismo que index.html) -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">DREAMPLAY</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#explorar">Explorar</a></li>
+                <li><a href="#registro">Registrarse</a></li>
+                <li><a href="login.html">Iniciar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Formulario de Registro -->
+    <section class="register-container">
+        <div class="register-form">
+            <h2>Únete a Dreamplay</h2>
+            <p class="register-subtitle">Comienza tu journey como cineasta independiente</p>
+
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Nombre *</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Apellido *</label>
+                        <input type="text" id="lastName" name="lastName" required placeholder="Tu apellido">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario *</label>
+                    <input type="text" id="username" name="username" required placeholder="@tuusuario">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña *</label>
+                    <input type="password" id="password" name="password" required placeholder="Mínimo 8 caracteres">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Contraseña *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repite tu contraseña">
+                </div>
+
+                <div class="form-group">
+                    <label for="userType">Tipo de Usuario *</label>
+                    <select id="userType" name="userType" required>
+                        <option value="">Selecciona tu rol</option>
+                        <option value="director">🎬 Director/Creador</option>
+                        <option value="spectator">👥 Espectador</option>
+                        <option value="both">🎬👥 Ambos</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Biografía (Opcional)</label>
+                    <textarea id="bio" name="bio" rows="3" placeholder="Cuéntanos sobre ti, tu experiencia en cine, tus proyectos..."></textarea>
+                </div>
+
+                <div class="terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        Acepto los <a href="#" style="color: var(--neon-cyan);">términos de servicio</a> 
+                        y la <a href="#" style="color: var(--neon-cyan);">política de privacidad</a>. 
+                        Confirmo que tengo al menos 18 años.
+                    </label>
+                </div>
+
+                <button type="submit" class="cta-button" style="width: 100%;">
+                    🚀 Crear Cuenta en Dreamplay
+                </button>
+
+                <div class="login-link">
+                    ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión aquí</a>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Validación del formulario
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('❌ Las contraseñas no coinciden');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('❌ La contraseña debe tener al menos 8 caracteres');
+                return;
+            }
+            
+            // Aquí normalmente enviaríamos los datos a un servidor
+            alert('✅ ¡Cuenta creada exitosamente! Serás redirigido al login.');
+            window.location.href = 'login.html';
+        });
+
+        // Efecto visual en los inputs
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.15)';
+            });
+            
+            element.addEventListener('blur', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>

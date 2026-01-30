@@ -1,0 +1,422 @@
+/* Reset y configuración global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variables CSS - Tema Cine */
+:root {
+    --deep-purple: #2D1B69;
+    --projector-gold: #FFD700;
+    --neon-cyan: #00FFFF;
+    --dark-bg: #0F0F1E;
+    --darker-bg: #080811;
+    --light-text: #FFFFFF;
+    --gray-text: #B0B0B0;
+    --card-bg: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--light-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header y Navegación */
+.header {
+    background: linear-gradient(135deg, var(--deep-purple), #1a103a);
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--projector-gold);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--light-text);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: var(--neon-cyan);
+}
+
+.login-btn {
+    background: var(--projector-gold);
+    color: var(--dark-bg) !important;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-weight: bold !important;
+    transition: transform 0.3s;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    background: #ffed4e;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background: linear-gradient(rgba(15, 15, 30, 0.8), rgba(45, 27, 105, 0.6));
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    margin-top: 80px;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, var(--projector-gold), var(--neon-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: var(--projector-gold);
+    -webkit-text-fill-color: var(--projector-gold);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--gray-text);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: linear-gradient(45deg, var(--deep-purple), var(--neon-cyan));
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
+}
+
+.cta-button.secondary {
+    background: transparent;
+    border: 2px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+
+/* Stats Section */
+.stats {
+    background: var(--darker-bg);
+    padding: 4rem 2rem;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-card h3 {
+    font-size: 3rem;
+    color: var(--projector-gold);
+    margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+    color: var(--gray-text);
+    font-size: 1.1rem;
+}
+
+/* Featured Films Section */
+.featured-films {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.featured-films h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--projector-gold);
+}
+
+.films-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.film-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.film-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.film-poster {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.film-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.film-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.film-card:hover .film-overlay {
+    opacity: 1;
+}
+
+.play-btn {
+    background: var(--projector-gold);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    color: var(--dark-bg);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+}
+
+.film-info {
+    padding: 1.5rem;
+}
+
+.film-info h3 {
+    color: var(--projector-gold);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.film-director {
+    color: var(--neon-cyan);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.film-description {
+    color: var(--gray-text);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.film-stats {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gray-text);
+    font-size: 0.8rem;
+}
+
+/* How It Works Section */
+.how-it-works {
+    padding: 4rem 2rem;
+    background: var(--darker-bg);
+}
+
+.how-it-works h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--projector-gold);
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.step {
+    text-align: center;
+    padding: 2rem;
+}
+
+.step-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.step h3 {
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.step p {
+    color: var(--gray-text);
+    line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+    background: var(--darker-bg);
+    padding: 3rem 2rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    color: var(--projector-gold);
+    margin-bottom: 1rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: var(--gray-text);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: var(--neon-cyan);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-text);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .films-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

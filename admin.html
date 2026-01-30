@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Admin - Dreamplay</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            background: linear-gradient(rgba(15, 15, 30, 0.95), rgba(45, 27, 105, 0.95));
+            padding: 80px 1rem 1rem;
+        }
+
+        .admin-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-title {
+            color: var(--projector-gold);
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .admin-subtitle {
+            color: var(--gray-text);
+            margin: 0;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-admin {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-admin:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-admin.primary {
+            background: var(--projector-gold);
+            color: var(--dark-bg);
+            font-weight: bold;
+        }
+
+        /* Grid Principal del Dashboard */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar de Navegación */
+        .admin-sidebar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .admin-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--gray-text);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+        }
+
+        .nav-link.active {
+            background: var(--deep-purple);
+            color: var(--light-text);
+            box-shadow: 0 4px 15px rgba(45, 27, 105, 0.5);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Contenido Principal */
+        .admin-content {
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* Tarjetas de Estadísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .stat-title {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .stat-value {
+            color: var(--projector-gold);
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .trend-up {
+            color: #4CAF50;
+        }
+
+        .trend-down {
+            color: #F44336;
+        }
+
+        /* Gráficos y Tablas */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-title {
+            color: var(--projector-gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(45deg, rgba(255,215,0,0.1), rgba(0,255,255,0.1));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-text);
+            font-style: italic;
+        }
+
+        /* Tablas */
+        .table-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            background: rgba(45, 27, 105, 0.5);
+            color: var(--projector-gold);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-text);
+        }
+
+        .admin-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+        }
+
+        .status-inactive {
+            background: rgba(244, 67, 54, 0.2);
+            color: #F44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Secciones Específicas */
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--projector-gold);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Filtros y Búsqueda */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            color: var(--gray-text);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 250px;
+        }
+
+        /* Paginación */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn.active {
+            background: var(--projector-gold);
+            color: var(--dark-bg);
+        }
+
+        .page-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Modales */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid var(--projector-gold);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            color: var(--projector-gold);
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--gray-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">DREAMPLAY ADMIN</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Volver al Sitio</a></li>
+                <li><a href="#" id="logoutBtn">Cerrar Sesión</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <!-- Header del Admin -->
+        <div class="admin-header">
+            <div>
+                <h1 class="admin-title">Panel de Control Admin</h1>
+                <p class="admin-subtitle">Gestión completa de la plataforma Dreamplay</p>
+            </div>
+            <div class="admin-actions">
+                <button class="btn-admin">📊 Exportar Reporte</button>
+                <button class="btn-admin primary">🔄 Actualizar Datos</button>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+            <!-- Sidebar de Navegación -->
+            <nav class="admin-sidebar">
+                <ul class="admin-nav">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#finances" class="nav-link" data-section="finances">
+                            <span class="nav-icon">💰</span>
+                            <span>Finanzas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#users" class="nav-link" data-section="users">
+                            <span class="nav-icon">👥</span>
+                            <span>Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#content" class="nav-link" data-section="content">
+                            <span class="nav-icon">🎬</span>
+                            <span>Contenido</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#donations" class="nav-link" data-section="donations">
+                            <span class="nav-icon">💝</span>
+                            <span>Donaciones</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#settings" class="nav-link" data-section="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Contenido Principal -->
+            <div class="admin-content">
+                <!-- Sección: Dashboard -->
+                <div id="dashboard" class="admin-section active">
+                    <!-- Estadísticas Principales -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">💰</div>
+                                <div>
+                                    <div class="stat-title">Ingresos Totales</div>
+                                    <div class="stat-value">$24,568.75</div>
+                                </div>
+                            </div>
+                            <div class="stat-trend trend-up">
+                                <span>↑ 18.5%</span>
+                                <span>vs mes anterior</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">👥</div>
+                                <div>
+                                    <div class="stat-title">Usuarios Activos</div>
+                                    <div class="stat-value">2,847</div>
+                                </div>
+                            </div>
+                            <div class="stat-trend trend-up">
+                                <span>↑ 12.3%</span>
+                                <span>nuevos este mes</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">🎬</div>
+                                <div>
+                                    <div class="stat-title">Películas Subidas</div>
+                                    <div class="stat-value">156</div>
+                                </div>
+                            </div>
+                            <div class="stat-trend trend-up">
+                                <span>↑ 8.7%</span>
+                                <span>este mes</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-icon">💝</div>
+                                <div>
+                                    <div class="stat-title">Donaciones Totales</div>
+                                    <div class="stat-value">$18,425.60</div>
+                                </div>
+                            </div>
+                            <div class="stat-trend trend-up">
+                                <span>↑ 22.1%</span>
+                                <span>crecimiento</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráficos -->
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3 class="chart-title">Ingresos Mensuales</h3>
+                            <div class="chart-placeholder">
+                                Gráfico de ingresos: $24,568.75 total<br>
+                                Donaciones: $18,425.60 | Publicidad: $6,143.15
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <h3 class="chart-title">Distribución de Ingresos</h3>
+                            <div class="chart-placeholder">
+                                75% Donaciones<br>
+                                25% Publicidad
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actividad Reciente -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h3 class="section-title">Actividad Reciente</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Acción</th>
+                                        <th>Película</th>
+                                        <th>Monto</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@carlosfilm</td>
+                                        <td>Subió película</td>
+                                        <td>"Horizontes Perdidos"</td>
+                                        <td>-</td>
+                                        <td>Hace 2 horas</td>
+                                    </tr>
+                                    <tr>
+                                        <td>maria_gonzalez</td>
+                                        <td>Donación</td>
+                                        <td>"El Sueño del Cineasta"</td>
+                                        <td>$50.00</td>
+                                        <td>Hace 4 horas</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@film_lover</td>
+                                        <td>Registro</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>Hace 5 horas</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@ana_director</td>
+                                        <td>Retiro procesado</td>
+                                        <td>-</td>
+                                        <td>$500.00</td>
+                                        <td>Hace 1 día</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Finanzas -->
+                <div id="finances" class="admin-section">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3 class="section-title">Resumen Financiero</h3>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">🏦</div>
+                                    <div>
+                                        <div class="stat-title">Ganancias Plataforma</div>
+                                        <div class="stat-value">$6,143.15</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend trend-up">
+                                    <span>15% del total</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">🎁</div>
+                                    <div>
+                                        <div class="stat-title">Para Directores</div>
+                                        <div class="stat-value">$18,425.60</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend trend-up">
+                                    <span>85% donaciones</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">📺</div>
+                                    <div>
+                                        <div class="stat-title">Publicidad</div>
+                                        <div class="stat-value">$2,457.26</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend trend-up">
+                                    <span>40% para directores</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Ingresos Plataforma</th>
+                                        <th>Pagado a Directores</th>
+                                        <th>Neto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Oct 2024</td>
+                                        <td>Donaciones + Publicidad</td>
+                                        <td>$6,143.15</td>
+                                        <td>$18,425.60</td>
+                                        <td style="color: var(--projector-gold);">+$6,143.15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sep 2024</td>
+                                        <td>Donaciones + Publicidad</td>
+                                        <td>$5,184.90</td>
+                                        <td>$15,554.70</td>
+                                        <td style="color: var(--projector-gold);">+$5,184.90</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ago 2024</td>
+                                        <td>Donaciones + Publicidad</td>
+                                        <td>$4,325.75</td>
+                                        <td>$12,977.25</td>
+                                        <td style="color: var(--projector-gold);">+$4,325.75</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Usuarios -->
+                <div id="users" class="admin-section">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3 class="section-title">Gestión de Usuarios</h3>
+                            <div class="filters">
+                                <input type="text" class="search-box" placeholder="Buscar usuarios...">
+                                <select class="filter-select">
+                                    <option>Todos los roles</option>
+                                    <option>Directores</option>
+                                    <option>Espectadores</option>
+                                </select>
+                                <select class="filter-select">
+                                    <option>Todos los estados</option>
+                                    <option>Activos</option>
+                                    <option>Inactivos</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Email</th>
+                                        <th>Rol</th>
+                                        <th>Películas</th>
+                                        <th>Ingresos</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@analopezcine</td>
+                                        <td>ana.lopez@email.com</td>
+                                        <td>Director</td>
+                                        <td>12</td>
+                                        <td>$2,845.50</td>
+                                        <td><span class="status-badge status-active">Activo</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">👁️</button>
+                                            <button class="btn-action">✏️</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>@carlosruizfilm</td>
+                                        <td>carlos.ruiz@email.com</td>
+                                        <td>Director</td>
+                                        <td>8</td>
+                                        <td>$1,567.80</td>
+                                        <td><span class="status-badge status-active">Activo</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">👁️</button>
+                                            <button class="btn-action">✏️</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>maria_gonzalez</td>
+                                        <td>maria.g@email.com</td>
+                                        <td>Espectador</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td><span class="status-badge status-active">Activo</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">👁️</button>
+                                            <button class="btn-action">✏️</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">→</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Contenido -->
+                <div id="content" class="admin-section">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3 class="section-title">Gestión de Contenido</h3>
+                            <div class="filters">
+                                <input type="text" class="search-box" placeholder="Buscar películas...">
+                                <select class="filter-select">
+                                    <option>Todos los estados</option>
+                                    <option>Aprobado</option>
+                                    <option>Pendiente</option>
+                                    <option>Rechazado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Película</th>
+                                        <th>Director</th>
+                                        <th>Género</th>
+                                        <th>Vistas</th>
+                                        <th>Donaciones</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>El Sueño del Cineasta</td>
+                                        <td>@analopezcine</td>
+                                        <td>Drama</td>
+                                        <td>12.4K</td>
+                                        <td>$856.50</td>
+                                        <td><span class="status-badge status-active">Aprobado</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">👁️</button>
+                                            <button class="btn-action">✏️</button>
+                                            <button class="btn-action">🗑️</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Latidos Urbanos</td>
+                                        <td>@carlosruizfilm</td>
+                                        <td>Documental</td>
+                                        <td>8.7K</td>
+                                        <td>$567.25</td>
+                                        <td><span class="status-badge status-active">Aprobado</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">👁️</button>
+                                            <button class="btn-action">✏️</button>
+                                            <button class="btn-action">🗑️</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nueva Obra Experimental</td>
+                                        <td>@juanartista</td>
+                                        <td>Experimental</td>
+                                        <td>156</td>
+                                        <td>$45.00</td>
+                                        <td><span class="status-badge status-pending">Pendiente</span></td>
+                                        <td class="action-buttons">
+                                            <button class="btn-action">✅</button>
+                                            <button class="btn-action">❌</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Donaciones -->
+                <div id="donations" class="admin-section">
+                    <div class="section">
+                        <div class="section-header">
+                            <h3 class="section-title">Historial de Donaciones</h3>
+                            <div class="filters">
+                                <input type="text" class="search-box" placeholder="Buscar donaciones...">
+                                <select class="filter-select">
+                                    <option>Todas las donaciones</option>
+                                    <option>Últimos 7 días</option>
+                                    <option>Últimos 30 días</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Donador</th>
+                                        <th>Película</th>
+                                        <th>Monto Total</th>
+                                        <th>Para Director</th>
+                                        <th>Para Plataforma</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#D-2845</td>
+                                        <td>maria_gonzalez</td>
+                                        <td>El Sueño del Cineasta</td>
+                                        <td>$50.00</td>
+                                        <td style="color: var(--projector-gold);">$42.50</td>
+                                        <td style="color: var(--neon-cyan);">$7.50</td>
+                                        <td>15 Oct 2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#D-2844</td>
+                                        <td>anonimo</td>
+                                        <td>Latidos Urbanos</td>
+                                        <td>$25.00</td>
+                                        <td style="color: var(--projector-gold);">$21.25</td>
+                                        <td style="color: var(--neon-cyan);">$3.75</td>
+                                        <td>15 Oct 2024</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#D-2843</td>
+                                        <td>@film_lover</td>
+                                        <td>Sombras del Alma</td>
+                                        <td>$100.00</td>
+                                        <td style="color: var(--projector-gold);">$85.00</td>
+                                        <td style="color: var(--neon-cyan);">$15.00</td>
+                                        <td>14 Oct 2024</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección: Configuración -->
+                <div id="settings" class="admin-section">
+                    <div class="section">
+                        <h3 class="section-title">Configuración de la Plataforma</h3>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">💰</div>
+                                    <div>
+                                        <div class="stat-title">Porcentaje Donaciones</div>
+                                        <div class="stat-value">85% / 15%</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend">
+                                    <span>Director / Plataforma</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">📺</div>
+                                    <div>
+                                        <div class="stat-title">Porcentaje Publicidad</div>
+                                        <div class="stat-value">40% / 60%</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend">
+                                    <span>Director / Plataforma</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <div class="stat-icon">🔒</div>
+                                    <div>
+                                        <div class="stat-title">Límite Retiro</div>
+                                        <div class="stat-value">$10.00</div>
+                                    </div>
+                                </div>
+                                <div class="stat-trend">
+                                    <span>Mínimo por retiro</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button class="cta-button">⚙️ Editar Configuración</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Confirmación -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirmar Acción</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <p>¿Estás seguro de que quieres realizar esta acción?</p>
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                <button class="btn-admin" id="cancelAction">Cancelar</button>
+                <button class="btn-admin primary" id="confirmAction">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de Panel Admin - COMPLETO
+        class AdminPanel {
+            constructor() {
+                this.currentSection = 'dashboard';
+                this.init();
+            }
+
+            init() {
+                this.setupNavigation();
+                this.setupModals();
+                this.loadDashboardData();
+                this.setupFilters();
+            }
+
+            setupNavigation() {
+                // Navegación entre secciones
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        
+                        const section = link.getAttribute('data-section');
+                        this.showSection(section);
+                        
+                        // Actualizar navegación activa
+                        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    });
+                });
+            }
+
+            showSection(sectionId) {
+                // Ocultar todas las secciones
+                document.querySelectorAll('.admin-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // Mostrar sección seleccionada
+                document.getElementById(sectionId).classList.add('active');
+                this.currentSection = sectionId;
+            }
+
+            setupModals() {
+                const modal = document.getElementById('confirmModal');
+                const closeBtn = document.querySelector('.close-modal');
+                const cancelBtn = document.getElementById('cancelAction');
+                
+                // Abrir modal en acciones importantes
+                document.querySelectorAll('.btn-action').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        modal.classList.add('active');
+                    });
+                });
+                
+                // Cerrar modal
+                [closeBtn, cancelBtn].forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        modal.classList.remove('active');
+                    });
+                });
+                
+                // Confirmar acción
+                document.getElementById('confirmAction').addEventListener('click', () => {
+                    modal.classList.remove('active');
+                    alert('✅ Acción completada exitosamente');
+                });
+            }
+
+            loadDashboardData() {
+                // Aquí cargaríamos datos reales de una API
+                console.log('📊 Cargando datos del dashboard...');
+                
+                // Simular carga de datos
+                setTimeout(() => {
+                    console.log('✅ Datos del dashboard cargados');
+                }, 1000);
+            }
+
+            setupFilters() {
+                // Búsqueda en tiempo real
+                document.querySelectorAll('.search-box').forEach(search => {
+                    search.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value.toLowerCase();
+                        console.log(`🔍 Buscando: ${searchTerm}`);
+                        // Aquí iría la lógica de filtrado real
+                    });
+                });
+                
+                // Filtros por select
+                document.querySelectorAll('.filter-select').forEach(select => {
+                    select.addEventListener('change', (e) => {
+                        console.log(`🎯 Filtro aplicado: ${e.target.value}`);
+                        // Aquí iría la lógica de filtrado real
+                    });
+                });
+            }
+        }
+
+        // Inicializar panel admin
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdminPanel();
+            console.log('🎯 Panel Admin de Dreamplay inicializado');
+            
+            // Botón de logout
+            document.getElementById('logoutBtn').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    window.location.href = 'index.html';
+                }
+            });
+            
+            // Botón de actualizar datos
+            document.querySelector('.btn-admin.primary').addEventListener('click', () => {
+                alert('🔄 Datos actualizados correctamente');
+            });
+        });
+
+        // Efectos visuales
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

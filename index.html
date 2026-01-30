@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreamplay - Cine Independiente</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header y Navegación -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">DREAMPLAY</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#explorar">Explorar</a></li>
+                <li><a href="upload.html">Subir Contenido</a></li>
+                <li><a href="player">🎬Video</a></li>
+                <li><a href="donate.html">Donaciones</a></li>
+                <li><a href="login.html" class="login-btn">Iniciar Sesión</a></li>
+                <li><a href="profile.html">Mi Perfil</a></li>
+                <!-- En alguna sección de tu página -->
+                
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección Hero (Principal) -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>El Cine Independiente <span class="highlight">Renace</span></h1>
+            <p>Descubre, comparte y apoya el talento emergente del cine mundial</p>
+            <div class="hero-buttons">
+                <a href="#explorar" class="cta-button">Explorar Contenido</a>
+                <a href="upload.html" class="cta-button secondary">Ser Creador</a>
+        
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Estadísticas -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>50+</h3>
+                <p>Directores</p>
+            </div>
+            <div class="stat-card">
+                <h3>200+</h3>
+                <p>Películas</p>
+            </div>
+            <div class="stat-card">
+                <h3>$5,000+</h3>
+                <p>En Donaciones</p>
+            </div>
+            <div class="stat-card">
+                <h3>10K+</h3>
+                <p>Espectadores</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Películas Destacadas -->
+    <section id="explorar" class="featured-films">
+        <h2>Películas Destacadas</h2>
+        <div class="films-grid">
+            <!-- Película 1 -->
+            <div class="film-card">
+                <div class="film-poster">
+                    <img src="images/placeholder1.jpg" alt="El Sueño del Cineasta">
+                    <div class="film-overlay">
+                       
+                        <button class="play-btn" onclick="window.location.href='donate.html'">▶</button>
+                    </div>
+                </div>
+                <div class="film-info">
+                    <h3>El Sueño del Cineasta</h3>
+                    <p class="film-director">Por: Ana López</p>
+                    <p class="film-description">Un cortometraje sobre la pasión por el cine independiente...</p>
+                    <div class="film-stats">
+                        <span>🎬 15 min</span>
+                        <span>❤️ 245</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Película 2 -->
+            <div class="film-card">
+                <div class="film-poster">
+                    <img src="images/placeholder2.jpg" alt="Latidos Urbanos">
+                    <div class="film-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="film-info">
+                    <h3>Latidos Urbanos</h3>
+                    <p class="film-director">Por: Carlos Ruiz</p>
+                    <p class="film-description">Documental sobre la vida en la ciudad moderna...</p>
+                    <div class="film-stats">
+                        <span>🎬 22 min</span>
+                        <span>❤️ 189</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Película 3 -->
+            <div class="film-card">
+                <div class="film-poster">
+                    <img src="images/placeholder3.jpg" alt="Sombras del Alma">
+                    <div class="film-overlay">
+                        <button class="play-btn">▶</button>
+                    </div>
+                </div>
+                <div class="film-info">
+                    <h3>Sombras del Alma</h3>
+                    <p class="film-director">Por: María Torres</p>
+                    <p class="film-description">Drama psicológico que explora las profundidades humanas...</p>
+                    <div class="film-stats">
+                        <span>🎬 18 min</span>
+                        <span>❤️ 312</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Cómo Funciona -->
+    <section class="how-it-works">
+        <h2>¿Cómo Funciona Dreamplay?</h2>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon">🎬</div>
+                <h3>1. Sube tu Contenido</h3>
+                <p>Registrate como director y sube tus películas, cortos o documentales</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">👥</div>
+                <h3>2. Comparte con el Mundo</h3>
+                <p>Tu obra será visible para nuestra comunidad global de amantes del cine</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">💝</div>
+                <h3>3. Recibe Donaciones</h3>
+                <p>Los espectadores pueden apoyarte directamente con donaciones</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">💰</div>
+                <h3>4. Gana Dinero</h3>
+                <p>Recibe el 85% de cada donación + 40% de los ingresos por publicidad</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>DREAMPLAY</h3>
+                <p>Plataforma de cine independiente para creadores y amantes del séptimo arte.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#explorar">Explorar</a></li>
+                    <li><a href="upload.html">Subir Contenido</a></li>
+                    <li><a href="donate.html">Donaciones</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Términos de Servicio</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Derechos de Autor</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Dreamplay. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <footer class="footer">
+    <!-- ... contenido existente del footer ... -->
+    
+    <div class="footer-bottom">
+        <p>&copy; 2024 Dreamplay. Todos los derechos reservados. 
+           <a href="admin.html" style="color: transparent;">.</a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

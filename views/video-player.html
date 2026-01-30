@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor - DreamPlay</title>
+    <link rel="stylesheet" href="/css/video-player.css">
+</head>
+<body>
+    <div class="video-container">
+        <!-- Botón volver -->
+        <div class="header">
+            <a href="/" class="back-btn">← Volver al Inicio</a>
+            <h1>DreamPlay Player</h1>
+        </div>
+
+        <!-- Reproductor de video -->
+        <div class="player-wrapper">
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+                Tu navegador no soporta el elemento video.
+            </video>
+            
+            <!-- Controles personalizados -->
+            <div class="video-controls">
+                <div class="video-info">
+                    <h2 id="videoTitle">Título del Video</h2>
+                    <p id="videoDescription">Descripción del video</p>
+                </div>
+                
+                <div class="interaction-buttons">
+                    <button id="likeBtn" class="like-btn">
+                        <span>❤️</span>
+                        <span id="likeCount">0</span> Likes
+                    </button>
+                    
+                    <button id="favoriteBtn" class="favorite-btn">
+                        <span>⭐</span> Favorito
+                    </button>
+                    
+                    <button id="shareBtn" class="share-btn">
+                        <span>📤</span> Compartir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de videos -->
+        <div class="video-list">
+            <h3>Más Videos</h3>
+            <div id="videoList" class="videos-grid">
+                <!-- Los videos se cargarán aquí con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/video-player.js"></script>
+</body>
+</html>

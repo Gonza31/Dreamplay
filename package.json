@@ -1,0 +1,22 @@
+{
+  "name": "dreamplay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "handlebars": "^4.7.8",
+    "nodemailer": "^7.0.9",
+    "sqlite3": "^5.1.7"
+  }
+}
