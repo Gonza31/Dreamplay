@@ -9,7 +9,10 @@ const port = 3000;
 // Importar la base de datos
 const db = require('./database/schema');
 // ⬇️⬇️⬇️ AGREGAR ESTAS 2 LÍNEAS NUEVAS AQUÍ ⬇️⬇️⬇️
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 // Agregar esta línea NUEVA con los otros requires
 const { enviarEmailDonacion, enviarEmailBienvenida } = require('./services/emailService');
